@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-// // 997. Find the Town Judge
+// 997. Find the Town Judge
 
 int findJudge(int n, vector<vector<int>>& trust) {
         vector<int> indeg(n+1,0);
