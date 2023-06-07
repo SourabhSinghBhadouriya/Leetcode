@@ -1,4 +1,7 @@
-//1168 Optimize Water Distribution in a Village
+#include<bits/stdc++.h>
+using namespace std;
+
+// 1168 Optimize Water Distribution in a Village
 
 vector<int> par;
 int findPar(int u)

@@ -1,4 +1,7 @@
-//207 Course Schedule
+#include<bits/stdc++.h>
+using namespace std;
+
+// 207 Course Schedule
 
 bool canFinish(int N, vector<vector<int>> &prerequisites)
 {

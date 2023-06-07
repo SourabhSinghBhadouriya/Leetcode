@@ -1,3 +1,6 @@
+#include<bits/stdc++.h>
+using namespace std;
+
 // Number of Distinct Islands(GFG)
 
 void dfs(int row,int col,vector<vector<int>>& grid, vector<vector<bool>> &vis,vector<pair<int,int>> &vec,int row0,int col0){

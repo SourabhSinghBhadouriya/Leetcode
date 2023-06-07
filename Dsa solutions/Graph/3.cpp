@@ -1,3 +1,6 @@
+#include<bits/stdc++.h>
+using namespace std;
+
 // 547 Number of Provinces
 
  void dfs(vector<vector<int>>& isConnected,vector<bool> &vis,int i){

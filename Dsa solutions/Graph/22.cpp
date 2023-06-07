@@ -1,4 +1,8 @@
+#include<bits/stdc++.h>
+using namespace std;
+
 // 684 Redundant Connection
+
 vector<int> par;
 int findPar(int u)
 {

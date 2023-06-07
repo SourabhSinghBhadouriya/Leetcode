@@ -1,3 +1,6 @@
+#include<bits/stdc++.h>
+using namespace std;
+
 // 210 Course Schedule II
 
 vector<int> findOrder(int N, vector<vector<int>> &prerequisites)

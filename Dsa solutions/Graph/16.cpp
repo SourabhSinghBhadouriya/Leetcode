@@ -1,4 +1,7 @@
-//1020. Number of Enclaves
+#include<bits/stdc++.h>
+using namespace std;
+
+// 1020. Number of Enclaves
 
 int numEnclaves(vector<vector<int>>& grid) {
         int n = grid.size(),m = grid[0].size(),ans=0;

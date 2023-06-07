@@ -1,4 +1,8 @@
+#include<bits/stdc++.h>
+using namespace std;
+
 // 286 Walls and Gates
+
 void wallsAndGates(vector<vector<int>>& grid){
     int n = grid.size(),m = grid[0].size();
     vector<vector<int>> dir = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };

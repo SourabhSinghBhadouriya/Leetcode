@@ -1,4 +1,7 @@
-//1061 Lexicographically smallestEquivalentString
+#include<bits/stdc++.h>
+using namespace std;
+
+// 1061 Lexicographically smallestEquivalentString
 
 vector<int> par;
 int findPar(int u)

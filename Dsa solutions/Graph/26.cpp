@@ -1,4 +1,7 @@
-//733 Flood Fill
+#include<bits/stdc++.h>
+using namespace std;
+
+// 733 Flood Fill
 
  void dfs(vector<vector<int>>& image, int i, int j,int val, int color){
         image[i][j] = color;

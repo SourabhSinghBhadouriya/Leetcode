@@ -1,6 +1,9 @@
-// 785. Is Graph Bipartite?
+#include<bits/stdc++.h>
+using namespace std;
 
-    bool bipartite(vector<vector<int>>& graph, int src, vector<int> &vis) {
+// 785. Is Graph Bipartite?
+  
+bool bipartite(vector<vector<int>>& graph, int src, vector<int> &vis) {
         queue<int> que;
         que.push(src);
 
