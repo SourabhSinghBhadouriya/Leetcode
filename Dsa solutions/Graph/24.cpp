@@ -2,7 +2,11 @@
 using namespace std;
 
 // 305 Number of Island 2
-
+vector<int> par;
+int findPar(int u)
+{
+    return par[u] == u ? u : (par[u] = findPar(par[u]));
+}
 vector<int> numIslands2(int n, int m, vector<vector<int>> &positions)
 {
     vector<vector<int>> grid(n, vector<int>(m, 0));
