@@ -18,7 +18,7 @@ bool isSimilar(string s1, string s2) {
 
 int numSimilarGroups(vector<string>& strs) {
     int n = strs.size();
-    par.resize(n);
+    par.resize(n,-1);
         for (int i = 0; i < n; i++)
             par[i] = i;
 
