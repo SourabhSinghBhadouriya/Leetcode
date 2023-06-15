@@ -3,6 +3,7 @@ using namespace std;
 
 // 305 Number of Island 2
 vector<int> par;
+vector<vector<int>> dir {{-1,0},{1,0},{0,-1},{0,1}};
 int findPar(int u)
 {
     return par[u] == u ? u : (par[u] = findPar(par[u]));
@@ -49,6 +50,13 @@ vector<int> numIslands2(int n, int m, vector<vector<int>> &positions)
 }
 
 // without using grid
+
+vector<int> par;
+vector<vector<int>> dir {{-1,0},{1,0},{0,-1},{0,1}};
+int findPar(int u)
+{
+    return par[u] == u ? u : (par[u] = findPar(par[u]));
+}
 vector<int> numIslands2(int n, int m, vector<vector<int>> &positions)
 {
     par.resize(n * m, -1);
