@@ -136,6 +136,48 @@ vector<vector<int>> updateMatrix(vector<vector<int>>& grid) {
         return grid;
     }
 
+// 542. 01 Matrix(without visited vector of vector)
+
+vector<vector<int>> updateMatrix(vector<vector<int>>& grid) {
+
+        int n = grid.size(), m = grid[0].size();
+        queue<int> que;
+        vector<vector<int>> dir = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+
+        vector<vector<bool>> vis(n,vector<bool>(m,false));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] == 0) {
+                    que.push(i * m + j);
+                }
+                else{
+                    grid[i][j] = -1;
+                }
+            }
+        }
+
+        while (!que.empty()) {
+            int size = que.size();
+            while (size-- ) {
+                int idx = que.front();
+                que.pop();
+                int sr = idx / m, sc = idx % m;
+
+                for (vector<int> &d : dir) {
+                    int r = sr + d[0];
+                    int c = sc + d[1];
+
+                    if (r >= 0 && c >= 0 && r < n && c < m && grid[r][c] < 0) {
+                        grid[r][c] = grid[sr][sc] + 1;
+                        que.push(r * m + c);
+                    }
+                }
+            }
+        }
+
+        return grid;
+    }
+
 // 1020. Number of Enclaves
 
 int numEnclaves(vector<vector<int>>& grid) {
@@ -446,4 +488,44 @@ int longestIncreasingPath(vector<vector<int>> &matrix)
 
     return level;
 }
+
+// 1162. As Far from Land as Possible
+
+int maxDistance(vector<vector<int>>& grid) {
+        int n = grid.size(),m = grid[0].size();
+        queue<int> que;
+        vector<vector<int>> dir = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] == 1) {
+                    que.push(i * m + j);
+                }
+            }
+        }
+
+        if(que.size() == 0 || que.size() == n * m)return -1;
+        int level = -1;
+        while (!que.empty()) {
+            int size = que.size();
+            while (size-- ) {
+                int idx = que.front();
+                que.pop();
+                int sr = idx / m, sc = idx % m;
+
+                for (vector<int> &d : dir) {
+                    int r = sr + d[0];
+                    int c = sc + d[1];
+
+                    if (r >= 0 && c >= 0 && r < n && c < m && grid[r][c] == 0) {
+                        grid[r][c] = 1;
+                        que.push(r * m + c);
+                    }
+                }
+            }
+            level++;
+        }
+        return level;
+    }
+
+// 
 

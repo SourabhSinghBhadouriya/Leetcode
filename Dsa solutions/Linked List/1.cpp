@@ -14,7 +14,7 @@ public:
     }
 };
 
-// 1st question
+// 876 Middle of the Linked List
 // T: O(n), S: O(1)
 ListNode *midNode(ListNode *head)
 {
@@ -30,7 +30,7 @@ ListNode *midNode(ListNode *head)
     return slow;
 }
 
-// 2nd question
+// 206. Reverse Linked List
 // T: O(n), S: O(1)
 ListNode *reverse(ListNode *head)
 {
@@ -51,7 +51,7 @@ ListNode *reverse(ListNode *head)
     return prev;
 }
 
-// 3rd question
+// 234. Palindrome Linked List
 // T: O(n), S: O(1)
     bool isPalindrome(ListNode* head) {
         if (head == NULL || head->next == NULL)
@@ -80,7 +80,7 @@ ListNode *reverse(ListNode *head)
         return flag;
     }
 
-// 4th question
+// 143  Reorder List
 // T: O(n), S: O(1)
 void fold(ListNode *head)
 {
@@ -106,7 +106,7 @@ void fold(ListNode *head)
     }
 }
 
-//5th question
+// Unfold the linked list
 // T: O(n), S: O(1)
  void unfold(ListNode* head) {
         if (head == NULL || head->next == NULL)
@@ -128,7 +128,7 @@ void fold(ListNode *head)
         c1->next = nHead;
     }
 
-// 6th question
+// 21. Merge Two Sorted Lists
 // T: O(n + m), S: O(1)
 ListNode *mergeTwoLists(ListNode *l1, ListNode *l2)
 {
@@ -160,7 +160,7 @@ ListNode *mergeTwoLists(ListNode *l1, ListNode *l2)
     return head;
 }
 
-// 7th question
+//  148. Sort List
 //T:O(nlogn)
 ListNode* mergeSort(ListNode* head) {
         if (head == NULL || head->next == NULL)
@@ -174,7 +174,9 @@ ListNode* mergeSort(ListNode* head) {
         ListNode* right = mergeSort(nHead);
         return mergeTwoLists(left,right);
     }
-// 8th question
+
+// 23. Merge k Sorted Lists
+
 ListNode* mergeKLists(vector<ListNode*>& lists) {
         ListNode* res = NULL;
         for (auto i : lists) {
