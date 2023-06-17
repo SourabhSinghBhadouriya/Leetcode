@@ -311,6 +311,60 @@ int maxDistance(vector<vector<int>>& grid) {
         return level;
     }
 
+// 934. Shortest Bridge
+
+void dfs(int i,int j,vector<vector<int>>& grid,queue<int> &que,vector<vector<bool>> &vis){
+        int n = grid.size(),m = grid[0].size();
+        vector<vector<int>> dir = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+        vis[i][j] = true;
+        que.push(i * m + j);
+        for(vector<int> & d : dir){
+            int r = i + d[0];
+            int c = j + d[1];
+
+            if(r >= 0 && c >= 0 && r < n && c < m && grid[r][c] == 1 && !vis[r][c]){
+                dfs(r,c,grid,que,vis);
+            }
+        }
+    }
+int shortestBridge(vector<vector<int>>& grid) {
+        int n = grid.size(),m = grid[0].size();
+        queue<int> que;
+        bool flag = false;
+        vector<vector<bool>> vis(n,vector<bool>(m,false));
+        for(int i=0;i<n && !flag;i++){
+            for(int j=0;j<m && !flag;j++){
+                if(grid[i][j] == 1){
+                    dfs(i,j,grid,que,vis);
+                    flag = true;
+                }
+            }
+        }
+    int level = -1;
+    vector<vector<int>> dir = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+        while(!que.empty()){
+            level++;
+            int size = que.size();
+            while(size -- ){
+                int idx = que.front();
+                que.pop();
+                int sr = idx / m, sc = idx % m;
+
+                for (vector<int> &d : dir) {
+                    int r = sr + d[0];
+                    int c = sc + d[1];
+
+                    if (r >= 0 && c >= 0 && r < n && c < m && !vis[r][c]  ) {
+                        if(grid[r][c] == 1)return level;
+                        vis[r][c] = true;
+                        que.push(r * m + c);
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
 
 
 
