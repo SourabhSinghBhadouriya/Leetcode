@@ -332,7 +332,7 @@ int shortestBridge(vector<vector<int>>& grid) {
         queue<int> que;
         bool flag = false;
         vector<vector<bool>> vis(n,vector<bool>(m,false));
-        for(int i=0;i<n && !flag;i++){
+        for(int i=0;i<n;i++){
             for(int j=0;j<m && !flag;j++){
                 if(grid[i][j] == 1){
                     dfs(i,j,grid,que,vis);
