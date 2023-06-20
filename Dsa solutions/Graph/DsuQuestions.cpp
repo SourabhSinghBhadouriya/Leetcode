@@ -376,3 +376,80 @@ public:
         return par.size()-1;
     }
 };
+
+// 305 Number of Island 2
+
+class DSU {
+public:
+    vector<int>rank;
+    vector<int>parent;
+    
+    DSU(int n) {
+        rank.resize(n);
+        parent.resize(n);
+        for (int i = 0; i < n; i++) {
+            rank[i] = 0;
+            parent[i] = i;
+        }
+    }
+    
+    int findParent(int x) {
+        if (x == parent[x]) {
+            return x;
+        }
+        return parent[x] = findParent(parent[x]);
+    }
+    
+    void makeUnion(int x, int y) {
+        int p1 = findParent(x), p2 = findParent(y);
+        if (p1 != p2) {
+            if (rank[p1] > rank[p2]) {
+                parent[p2] = p1;
+                rank[p1] += rank[p2];
+            }
+            else {
+                parent[p1] = p2;
+                rank[p2] += rank[p1];
+            }
+        }
+    }
+};
+
+class Solution {
+  public:
+    vector<int> numOfIslands(int n, int m, vector<vector<int>> &operators) {
+     vector<vector<int>> vis(n,vector<int>(m,0));
+        int count = 0;
+        DSU dsu(n*m);
+        vector<int> ans;
+        for(auto &it:operators){
+            int i = it[0];
+            int j = it[1];
+            
+            if(vis[i][j] == 1){
+                ans.push_back(count);
+                continue;
+            }
+            else{
+                vis[i][j]=1;
+                count ++;
+                vector<vector<int>> dir {{-1,0},{1,0},{0,-1},{0,1}};
+                for (vector<int> &d : dir){
+                    int r = i + d[0];
+                    int c = j + d[1];
+                    
+                    if (r >= 0 && r < n && c >= 0 && c < m && vis[r][c] == 1){
+                        if(dsu.findParent(i * m + j) != dsu.findParent(r * m + c)){
+                            dsu.makeUnion(i * m + j,r * m + c);
+                            count--;
+                        }
+                    }
+                }
+            ans.push_back(count);
+            }
+        }
+        return ans;
+    }
+};
+
+// 
