@@ -252,3 +252,127 @@ public:
         return ans;
     }
 };
+
+
+// 839. Similar String Groups
+
+class DSU {
+public:
+    vector<int>rank;
+    vector<int>parent;
+    
+    DSU(int n) {
+        rank.resize(n);
+        parent.resize(n);
+        for (int i = 0; i < n; i++) {
+            rank[i] = 0;
+            parent[i] = i;
+        }
+    }
+    
+    int findParent(int x) {
+        if (x == parent[x]) {
+            return x;
+        }
+        return parent[x] = findParent(parent[x]);
+    }
+    
+    void makeUnion(int x, int y) {
+        int p1 = findParent(x), p2 = findParent(y);
+        if (p1 != p2) {
+            if (rank[p1] > rank[p2]) {
+                parent[p2] = p1;
+                rank[p1] += rank[p2];
+            }
+            else {
+                parent[p1] = p2;
+                rank[p2] += rank[p1];
+            }
+        }
+    }
+};
+
+class Solution {
+public:
+    bool isSimilar(string s1, string s2) {
+        int count = 0;
+        for (int i = 0; i < s1.length(); i++) {
+            if (s1[i] != s2[i] && ++count > 2)
+                return false;
+        }
+        return true;
+    }
+
+    int numSimilarGroups(vector<string>& strs) {
+        int n = strs.size();
+        DSU dsu(n);
+        int noOfSet = n;
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (isSimilar(strs[i], strs[j])) {
+                    if (dsu.findParent(i) != dsu.findParent(j)) {
+                        noOfSet--;
+                        dsu.makeUnion(i,j);
+                    }
+                }
+            }
+        }
+        return noOfSet;
+    }
+};
+
+// 1319. Number of Operations to Make Network Connected
+
+class DSU {
+public:
+    vector<int>rank;
+    vector<int>parent;
+    
+    DSU(int n) {
+        rank.resize(n);
+        parent.resize(n);
+        for (int i = 0; i < n; i++) {
+            rank[i] = 0;
+            parent[i] = i;
+        }
+    }
+    
+    int findParent(int x) {
+        if (x == parent[x]) {
+            return x;
+        }
+        return parent[x] = findParent(parent[x]);
+    }
+    
+    void makeUnion(int x, int y) {
+        int p1 = findParent(x), p2 = findParent(y);
+        if (p1 != p2) {
+            if (rank[p1] > rank[p2]) {
+                parent[p2] = p1;
+                rank[p1] += rank[p2];
+            }
+            else {
+                parent[p1] = p2;
+                rank[p2] += rank[p1];
+            }
+        }
+    }
+};
+
+class Solution {
+public:
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        if(connections.size() < n-1){
+            return -1;
+        }
+        DSU dsu(n);
+        for(auto &c : connections){
+            dsu.makeUnion(c[0],c[1]);
+        }
+        set<int> par;
+        for(int i=0;i<n;i++){
+            par.insert(dsu.findParent(i));
+        }
+        return par.size()-1;
+    }
+};
