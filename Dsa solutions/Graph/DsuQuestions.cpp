@@ -452,4 +452,61 @@ class Solution {
     }
 };
 
+// 547. Number of Provinces
+
+class DSU {
+public:
+    vector<int>rank;
+    vector<int>parent;
+    
+    DSU(int n) {
+        rank.resize(n);
+        parent.resize(n);
+        for (int i = 0; i < n; i++) {
+            rank[i] = 0;
+            parent[i] = i;
+        }
+    }
+    
+    int findParent(int x) {
+        if (x == parent[x]) {
+            return x;
+        }
+        return parent[x] = findParent(parent[x]);
+    }
+    
+    void makeUnion(int x, int y) {
+        int p1 = findParent(x), p2 = findParent(y);
+        if (p1 != p2) {
+            if (rank[p1] > rank[p2]) {
+                parent[p2] = p1;
+                rank[p1] += rank[p2];
+            }
+            else {
+                parent[p1] = p2;
+                rank[p2] += rank[p1];
+            }
+        }
+    }
+};
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n = isConnected.size();
+        DSU dsu(n);
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(isConnected[i][j] == 1){
+                    dsu.makeUnion(i,j);
+                }
+            }
+        }
+        int count = 0;
+        for(int i=0;i<n;i++){
+            if(dsu.findParent(i) == i)count++;
+        }
+        return count;
+    }
+};
+
 // 
