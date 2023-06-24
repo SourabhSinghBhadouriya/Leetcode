@@ -6,74 +6,125 @@
 #include<unordered_map>
 using namespace std;
 
+// 3. Longest Substring Without Repeating Characters
+
+int lengthOfLongestSubstring(string s) {
+        unordered_map<char,int> mp;
+        int tail=0,head=0,ans=0;
+        for(head=0;head<s.size();head++){
+            while(mp[s[head]] > 0){
+                mp[s[tail]]--;
+                tail++;
+            }
+            mp[s[head]]++;
+            ans = max(ans,head-tail+1);
+        }
+        return ans;
+    }
+
+// 1004. Max Consecutive Ones III
+
+int longestOnes(vector<int>& nums, int k) {
+        int head=0,tail=0,ans=0;
+        for(head=0;head<nums.size();head++){
+            if(nums[head] == 0)k--;
+            while(k < 0){
+                if(nums[tail] == 0)k++;
+                tail++;
+            }
+            ans = max(ans,head-tail+1);
+        }
+        return ans;
+    }
+
+// 1208. Get Equal Substrings Within Budget
+
+int equalSubstring(string s, string t, int maxCost) {
+        int head=0,tail=0,ans=0,cost=0;
+        for(head=0;head<s.size();head++){
+            cost += abs(s[head]-t[head]);
+            while(cost > maxCost){
+                cost -= abs(s[tail]-t[tail]);
+                tail++;
+            }
+            ans = max(ans,head-tail+1);
+        }
+        return ans;
+    }
+
+// 713. Subarray Product Less Than K
+
+int numSubarrayProductLessThanK(vector<int>& nums, int k) {
+        if(k <= 1)return 0;
+        int head=0,tail=0,ans=0,product=1;
+        for(head=0;head<nums.size();head++){
+            product = product*nums[head] ;
+            while(product >= k){
+                product = product/nums[tail];
+                tail++;
+            }
+            ans = ans + (head-tail+1);
+        }
+        return ans;
+    }
+
 // 567. Permutation in String
 
 bool checkInclusion(string s1, string s2) {
-        if (s1.length() > s2.length())
-            return false;
-        
         vector<int>freq1(26, 0), freq2(26, 0);
-        
         for (int i = 0; i < s1.length(); i++) {
             freq1[s1[i] - 'a']++;
-            freq2[s2[i] - 'a']++;
         }
-        
-        for (int i = 0; i < s2.length() - s1.length(); i++) {
-            if (freq1 == freq2)
-                return true;
-            freq2[s2[i + s1.size()] - 'a']++;
-            freq2[s2[i] - 'a']--;
+        int sz = s1.size();
+        int head=0,tail=0;
+        for(head=0;head<s2.size();head++){
+            if(freq1 == freq2)return true;
+            while(head-tail+1 > sz){
+                freq2[s2[tail]-'a']--;
+                tail++;
+            }
+            freq2[s2[head]-'a']++;
         }
-        
         return (freq1 == freq2);
     }
 
 // 438. Find All Anagrams in a String
 
 vector<int> findAnagrams(string s, string p) {
-        if (p.size() > s.size()) {
-            return {};
-        }
-
+        vector<int> ans;
         vector<int>freq1(26, 0), freq2(26, 0);
-        for (int i = 0; i < p.size(); i++) {
-            freq1[s[i] - 'a']++;
+        for(int i=0;i<p.size();i++){
             freq2[p[i] - 'a']++;
         }
-
-        vector<int>ans;
-        for (int i = 0; i < s.size()-p.size(); i++) {
-            if (freq1 == freq2) {
-                ans.push_back(i);
+        int sz = p.size();
+        int head=0,tail=0;
+        for(head=0;head<s.size();head++){
+            if(freq1 == freq2)ans.push_back(tail);
+            while(head-tail+1 > sz){
+                freq1[s[tail]-'a']--;
+                tail++;
             }
-            freq1[s[i]-'a']--;
-            freq1[s[i + p.size()] - 'a']++;
+            freq1[s[head]-'a']++;
         }
-        if (freq1 == freq2) {
-            ans.push_back(s.size() - p.size());
-        }
+        if(freq1 == freq2)ans.push_back(tail);
         return ans;
     }
 
 // 1456. Maximum Number of Vowels in a Substring of Given Length
 
-int maxVowels(string s, int k) {
-        unordered_set<char> vowels{'a', 'e', 'i', 'o', 'u'};
-
-        int countInCurrWindow = 0;
-        for (int i = 0; i < k; i++) {
-            countInCurrWindow += vowels.count(s[i]);
+bool isVowel( char c ){
+        if( c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' ) return true;
+        return false;
+    }
+    int maxVowels(string s, int k) {
+        int head=0,tail=0,ans=0,count=0;
+        for(head=0;head<s.size();head++){
+            if( isVowel(s[head])) count++;
+            while(head-tail+1 > k){
+                if( isVowel(s[tail])) count--;
+                tail++;
+            }
+            ans = max(ans,count);
         }
-
-        int ans = countInCurrWindow;
-
-        for (int i = k; i < s.size(); i++) {
-            countInCurrWindow += vowels.count(s[i]) - vowels.count(s[i-k]);
-            ans = max(ans, countInCurrWindow);
-        }
-
         return ans;
     }
-
-// 
