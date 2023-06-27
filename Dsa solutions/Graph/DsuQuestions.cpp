@@ -713,3 +713,64 @@ public:
         return ans;
     }
 };
+
+// 990. Satisfiability of Equality Equations
+
+class DSU {
+public:
+    vector<int>rank;
+    vector<int>parent;
+
+    DSU(int n) {
+        rank.resize(n);
+        parent.resize(n);
+        for (int i = 0; i < n; i++) {
+            rank[i] = 1;
+            parent[i] = i;
+        }
+    }
+    
+    int findParent(int x) {
+        if (x == parent[x]) {
+            return x;
+        }
+        return parent[x] = findParent(parent[x]);
+    }
+    
+    void makeUnion(int x, int y) {
+        int p1 = findParent(x), p2 = findParent(y);
+        if (p1 != p2) {
+            if (rank[p1] > rank[p2]) {
+                parent[p2] = p1;
+                rank[p1] += rank[p2];
+            }
+            else {
+                parent[p1] = p2;
+                rank[p2] += rank[p1];
+            }
+        }
+    }
+};
+class Solution {
+public:
+    bool equationsPossible(vector<string>& equations) {
+        DSU dsu(26);
+        
+        for(string s : equations){
+            if(s[1] == '='){
+                if(dsu.findParent(s[0]-'a') != dsu.findParent(s[3]-'a')){
+                    dsu.makeUnion(s[0]-'a',s[3]-'a');
+                }
+            }
+        }
+        for(string s : equations){
+            if(s[1] == '!'){
+                if(dsu.findParent(s[0]-'a') == dsu.findParent(s[3]-'a')){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
+
