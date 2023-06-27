@@ -13,7 +13,7 @@ public:
         rank.resize(n);
         parent.resize(n);
         for (int i = 0; i < n; i++) {
-            rank[i] = 0;
+            rank[i] = 1;
             parent[i] = i;
         }
     }
@@ -150,7 +150,7 @@ public:
         rank.resize(n);
         parent.resize(n);
         for (int i = 0; i < n; i++) {
-            rank[i] = 0;
+            rank[i] = 1;
             parent[i] = i;
         }
     }
@@ -204,7 +204,7 @@ public:
         rank.resize(n);
         parent.resize(n);
         for (int i = 0; i < n; i++) {
-            rank[i] = 0;
+            rank[i] = 1;
             parent[i] = i;
         }
     }
@@ -332,7 +332,7 @@ public:
         rank.resize(n);
         parent.resize(n);
         for (int i = 0; i < n; i++) {
-            rank[i] = 0;
+            rank[i] = 1;
             parent[i] = i;
         }
     }
@@ -388,7 +388,7 @@ public:
         rank.resize(n);
         parent.resize(n);
         for (int i = 0; i < n; i++) {
-            rank[i] = 0;
+            rank[i] = 1;
             parent[i] = i;
         }
     }
@@ -463,7 +463,7 @@ public:
         rank.resize(n);
         parent.resize(n);
         for (int i = 0; i < n; i++) {
-            rank[i] = 0;
+            rank[i] = 1;
             parent[i] = i;
         }
     }
@@ -509,4 +509,207 @@ public:
     }
 };
 
-// 
+// 1168 - Optimize Water Distribution in a Village
+
+class DSU {
+public:
+    vector<int>rank;
+    vector<int>parent;
+    
+    DSU(int n) {
+        rank.resize(n);
+        parent.resize(n);
+        for (int i = 0; i < n; i++) {
+            rank[i] = 1;
+            parent[i] = i;
+        }
+    }
+    
+    int findParent(int x) {
+        if (x == parent[x]) {
+            return x;
+        }
+        return parent[x] = findParent(parent[x]);
+    }
+    
+    void makeUnion(int x, int y) {
+        int p1 = findParent(x), p2 = findParent(y);
+        if (p1 != p2) {
+            if (rank[p1] > rank[p2]) {
+                parent[p2] = p1;
+                rank[p1] += rank[p2];
+            }
+            else {
+                parent[p1] = p2;
+                rank[p2] += rank[p1];
+            }
+        }
+    }
+};
+
+int minCostToSupplyWater(int n, vector<int> &wells, vector<vector<int>> &pipes)
+{
+    DSU dsu(n+1);
+    for (int i = 0; i < wells.size(); i++)
+    {
+        pipes.push_back({0, i + 1, wells[i]});
+    }
+
+    sort(pipes.begin(), pipes.end(), [](vector<int> &a, vector<int> &b)
+         { return a[2] < b[2]; });
+
+    int cost = 0;
+    for (vector<int> &e : pipes)
+    {
+        int u = e[0], v = e[1], w = e[2];
+        if(dsu.findParent(u) != dsu.findParent(v)){
+            dsu.makeUnion(u,v);
+            cost += w;
+        }
+    }
+    return cost;
+}
+
+// 1584. Min Cost to Connect All Points
+
+class DSU {
+public:
+    vector<int>rank;
+    vector<int>parent;
+    
+    DSU(int n) {
+        rank.resize(n);
+        parent.resize(n);
+        for (int i = 0; i < n; i++) {
+            rank[i] = 1;
+            parent[i] = i;
+        }
+    }
+    
+    int findParent(int x) {
+        if (x == parent[x]) {
+            return x;
+        }
+        return parent[x] = findParent(parent[x]);
+    }
+    
+    void makeUnion(int x, int y) {
+        int p1 = findParent(x), p2 = findParent(y);
+        if (p1 != p2) {
+            if (rank[p1] > rank[p2]) {
+                parent[p2] = p1;
+                rank[p1] += rank[p2];
+            }
+            else {
+                parent[p1] = p2;
+                rank[p2] += rank[p1];
+            }
+        }
+    }
+};
+class Solution {
+private : 
+int distance(vector<vector<int>>& points, int i, int j) {
+        return abs(points[i][0] - points[j][0]) + abs(points[i][1] - points[j][1]);
+    }
+
+public:
+    int minCostConnectPoints(vector<vector<int>>& points) {
+        int n = points.size();
+        DSU dsu(n);
+        vector<vector<int>> list;
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                list.push_back({ i, j ,distance(points, i, j)});
+            }
+        }
+
+        sort(list.begin(),list.end(), [](vector<int> &a, vector<int> &b){
+             return a[2] < b[2]; });
+
+        int cost = 0;
+        for (vector<int> &e : list) {
+            int u = e[0], v = e[1], w = e[2];
+
+            if (dsu.findParent(u) != dsu.findParent(v)) {
+                dsu.makeUnion(u,v);
+                cost += w;
+            }
+        }
+        return cost;
+    }
+};
+// 924. Minimize Malware Spread
+
+class DSU {
+public:
+    vector<int>rank;
+    vector<int>parent;
+
+    DSU(int n) {
+        rank.resize(n);
+        parent.resize(n);
+        for (int i = 0; i < n; i++) {
+            rank[i] = 1;
+            parent[i] = i;
+        }
+    }
+    
+    int findParent(int x) {
+        if (x == parent[x]) {
+            return x;
+        }
+        return parent[x] = findParent(parent[x]);
+    }
+    
+    void makeUnion(int x, int y) {
+        int p1 = findParent(x), p2 = findParent(y);
+        if (p1 != p2) {
+            if (rank[p1] > rank[p2]) {
+                parent[p2] = p1;
+                rank[p1] += rank[p2];
+            }
+            else {
+                parent[p1] = p2;
+                rank[p2] += rank[p1];
+            }
+        }
+    }
+};
+class Solution {
+public:
+    int minMalwareSpread(vector<vector<int>>& graph, vector<int>& initial) {
+        int n = graph.size();
+        DSU dsu(n);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (graph[i][j] == 0 || i == j)
+                    continue;
+
+                if (dsu.findParent(i) != dsu.findParent(j)) {
+                    dsu.makeUnion(i,j);
+                }
+            }
+        }
+
+        vector<int> infectedCount (n,0);
+        for (int &ele : initial) {
+            int p = dsu.findParent(ele);
+            infectedCount[p]++;
+        }
+
+        sort(initial.begin(),initial.end());
+
+        int ans = initial[0];
+        int maxPopulation = 0;
+        for (int &ele : initial) {
+            int p = dsu.findParent(ele);
+            if (infectedCount[p] == 1 && dsu.rank[p] > maxPopulation) {
+                maxPopulation = dsu.rank[p];
+                ans = ele;
+            }
+        }
+
+        return ans;
+    }
+};
