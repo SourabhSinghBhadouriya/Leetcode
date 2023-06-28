@@ -1,9 +1,4 @@
 #include<bits/stdc++.h>
-#include <vector>
-#include<string>
-#include <iostream>
-#include <list>
-#include<unordered_map>
 using namespace std;
 
 // 3. Longest Substring Without Repeating Characters
@@ -125,6 +120,21 @@ bool isVowel( char c ){
                 tail++;
             }
             ans = max(ans,count);
+        }
+        return ans;
+    }
+
+// 2302. Count Subarrays With Score Less Than K
+
+long long countSubarrays(vector<int>& nums, long long k) {
+        long long head=0,tail=0,ans=0,sum=0;
+        for(head = 0;head<nums.size();head++){
+            sum += nums[head];
+            while(sum*(head-tail+1) >= k){
+                sum -= nums[tail];
+                tail++;
+            }
+            ans += (head-tail+1);
         }
         return ans;
     }
