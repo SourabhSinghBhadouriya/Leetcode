@@ -137,6 +137,7 @@ long long countSubarrays(vector<int>& nums, long long k) {
             ans += (head-tail+1);
         }
         return ans;
+}
 
 // 904. Fruit Into Baskets
 
@@ -154,5 +155,6 @@ int totalFruit(vector<int>& fruits) {
         }
         return ans;  
     }
+
 
 // 
