@@ -157,4 +157,35 @@ int totalFruit(vector<int>& fruits) {
     }
 
 
-// 
+// 2260. Minimum Consecutive Cards to Pick Up
+
+int minimumCardPickup(vector<int>& cards) {
+        int tail=0,head=0,ans=INT_MAX;   
+        unordered_map<int,int> mp; 
+        for(head=0;head<cards.size();head++){  
+            mp[cards[head]]++;   
+            while(mp[cards[head]] > 1){  
+                ans = min(ans,head-tail+1);  
+                mp[cards[tail]]--; 
+                tail++;  
+            } 
+        }
+        return ans == INT_MAX ? -1 : ans; 
+    }
+
+// 424. Longest Repeating Character Replacement
+
+int characterReplacement(string s, int k) {
+        int head=0,tail=0,ans=0;
+        vector<int> freq(26,0);
+        for(head=0;head<s.size();head++){
+            freq[s[head]-'A']++;
+            while(head-tail+1 - *max_element(freq.begin(),freq.end()) > k){
+                freq[s[tail]-'A']--;
+                tail++;
+            }
+            ans = max(ans,head-tail+1);
+        }
+        return ans;
+    }
+
