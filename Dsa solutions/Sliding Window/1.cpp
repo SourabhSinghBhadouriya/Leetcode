@@ -4,17 +4,17 @@ using namespace std;
 // 3. Longest Substring Without Repeating Characters
 
 int lengthOfLongestSubstring(string s) {
-        unordered_map<char,int> mp;
-        int tail=0,head=0,ans=0;
-        for(head=0;head<s.size();head++){
-            while(mp[s[head]] > 0){
-                mp[s[tail]]--;
-                tail++;
+        int tail=0,head=0,ans=0;   // declare global variables head,tail,ans
+        unordered_map<char,int> mp;  // declare ds to store frequency(map,vector)
+        for(head=0;head<s.size();head++){  // run for loop
+            mp[s[head]]++;   // make operation
+            while(mp[s[head]] > 1){   // while loop for condition fail
+                mp[s[tail]]--;   // remove tail/last element
+                tail++;   // increase tail
             }
-            mp[s[head]]++;
-            ans = max(ans,head-tail+1);
+            ans = max(ans,head-tail+1);  // store ans
         }
-        return ans;
+        return ans;  // return ans
     }
 
 // 1004. Max Consecutive Ones III
