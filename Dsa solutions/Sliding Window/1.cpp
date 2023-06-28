@@ -5,12 +5,12 @@ using namespace std;
 
 int lengthOfLongestSubstring(string s) {
         int tail=0,head=0,ans=0;   // declare global variables head,tail,ans
-        unordered_map<char,int> mp;  // declare ds to store frequency(map,vector)
-        for(head=0;head<s.size();head++){  // run for loop
+        unordered_map<char,int> mp;  // if necessary declare ds to store frequency(map,vector)
+        for(head=0;head<s.size();head++){  // run for loop for whole array
             mp[s[head]]++;   // make operation
             while(mp[s[head]] > 1){   // while loop for condition fail
                 mp[s[tail]]--;   // remove tail/last element
-                tail++;   // increase tail
+                tail++;   // increase tail/update tail
             }
             ans = max(ans,head-tail+1);  // store ans
         }
@@ -137,4 +137,22 @@ long long countSubarrays(vector<int>& nums, long long k) {
             ans += (head-tail+1);
         }
         return ans;
+
+// 904. Fruit Into Baskets
+
+int totalFruit(vector<int>& fruits) {
+        int tail=0,head=0,ans=0;   
+        unordered_map<int,int> mp; 
+        for(head=0;head<fruits.size();head++){  
+            mp[fruits[head]]++;   
+            while(mp.size() > 2){   
+                mp[fruits[tail]]--; 
+                if(mp[fruits[tail]] == 0)mp.erase(fruits[tail]);
+                tail++;  
+            }
+            ans = max(ans,head-tail+1);  
+        }
+        return ans;  
     }
+
+// 
