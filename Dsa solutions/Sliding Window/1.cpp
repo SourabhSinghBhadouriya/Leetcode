@@ -81,6 +81,26 @@ int maximumUniqueSubarray(vector<int>& nums) {
         return ans;
     }
 
+// 424. Longest Repeating Character Replacement
+
+int characterReplacement(string s, int k) {
+        int head=0,tail=0,ans=0;
+        vector<int> freq(26,0);
+        for(head=0;head<s.size();head++){
+            freq[s[head]-'A']++;
+            while(head-tail+1 - *max_element(freq.begin(),freq.end()) > k){
+                freq[s[tail]-'A']--;
+                tail++;
+            }
+            ans = max(ans,head-tail+1);
+        }
+        return ans;
+    }
+
+// 209. Minimum Size Subarray Sum
+
+
+
 // 567. Permutation in String
 
 bool checkInclusion(string s1, string s2) {
@@ -191,21 +211,6 @@ int minimumCardPickup(vector<int>& cards) {
         return ans == INT_MAX ? -1 : ans; 
     }
 
-// 424. Longest Repeating Character Replacement
-
-int characterReplacement(string s, int k) {
-        int head=0,tail=0,ans=0;
-        vector<int> freq(26,0);
-        for(head=0;head<s.size();head++){
-            freq[s[head]-'A']++;
-            while(head-tail+1 - *max_element(freq.begin(),freq.end()) > k){
-                freq[s[tail]-'A']--;
-                tail++;
-            }
-            ans = max(ans,head-tail+1);
-        }
-        return ans;
-    }
 
 // 2348. Number of Zero-Filled Subarrays
 
