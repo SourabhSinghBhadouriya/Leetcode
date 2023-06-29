@@ -63,6 +63,24 @@ int numSubarrayProductLessThanK(vector<int>& nums, int k) {
         return ans;
     }
 
+// 1695. Maximum Erasure Value
+
+int maximumUniqueSubarray(vector<int>& nums) {
+        int tail=0,head=0,ans=0,sum=0;   
+        unordered_map<int,int> mp; 
+        for(head=0;head<nums.size();head++){  
+            mp[nums[head]]++;   
+            while(mp[nums[head]] > 1){   
+                sum -= nums[tail];
+                mp[nums[tail]]--;
+                tail++;  
+            }
+            if(mp[nums[head]] == 1)sum += nums[head];
+            ans = max(ans,sum);  
+        }
+        return ans; 
+    }
+
 // 567. Permutation in String
 
 bool checkInclusion(string s1, string s2) {
