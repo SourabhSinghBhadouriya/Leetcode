@@ -78,7 +78,7 @@ int maximumUniqueSubarray(vector<int>& nums) {
             if(mp[nums[head]] == 1)sum += nums[head];
             ans = max(ans,sum);  
         }
-        return ans; 
+        return ans;
     }
 
 // 567. Permutation in String
