@@ -189,3 +189,20 @@ int characterReplacement(string s, int k) {
         return ans;
     }
 
+// 2348. Number of Zero-Filled Subarrays
+
+long long zeroFilledSubarray(vector<int>& nums) {
+        long long head=0,tail=0,ans=0;
+        for(head=0;head<nums.size();head++){
+            tail = head;
+            while(head < nums.size() && nums[head] == 0){
+                ans += (head-tail+1);
+                head++;
+            }
+        }
+        return ans;
+    }
+
+// 
+
+
