@@ -203,6 +203,20 @@ long long zeroFilledSubarray(vector<int>& nums) {
         return ans;
     }
 
-// 
+// 2110. Number of Smooth Descent Periods of a Stock
+
+long long getDescentPeriods(vector<int>& prices) {
+        long long head=0,tail=0,ans=0;
+        for(head=1;head<prices.size();head++){
+            while(head < prices.size() && prices[head] - prices[head-1] == -1){
+                ans += (head-tail+1)-1;
+                head++;
+            }
+            tail = head;
+        }
+        return ans + prices.size();
+    }
+
+
 
 
