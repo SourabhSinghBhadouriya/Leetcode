@@ -99,7 +99,38 @@ int characterReplacement(string s, int k) {
 
 // 209. Minimum Size Subarray Sum
 
+int minSubArrayLen(int target, vector<int>& nums) {
+        int head=0,tail=0,ans=INT_MAX,sum=0;
+        for(head=0;head<nums.size();head++){
+            sum+=nums[head];
+            while(sum >= target){
+                ans=min(ans,head-tail+1);
+                sum-=nums[tail];
+                tail++;
+            }
+        }
+        return ans == INT_MAX ? 0 : ans;
+    }
 
+// 1658. Minimum Operations to Reduce X to Zero
+
+// 2024. Maximize the Confusion of an Exam
+
+int maxConsecutiveAnswers(string s, int k) {
+        int head=0,tail=0,cntt=0,cntf=0,mxans=0;
+        for(head=0;head<s.size();head++){
+            if(s[head] == 'T')cntt++;
+            if(s[head] == 'F')cntf++;
+
+            while(min(cntt,cntf) > k){
+                if(s[tail] == 'T')cntt--;
+                if(s[tail] == 'F')cntf--;
+                tail++;
+            }
+            mxans = max(mxans,head-tail+1);
+        }
+        return mxans;
+    }
 
 // 567. Permutation in String
 
