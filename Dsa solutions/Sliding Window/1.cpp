@@ -1,10 +1,26 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// Max Sum Subarray of size K
+long maximumSumSubarray(int K, vector<int> &Arr , int N){
+        long head=0,tail=0,ans=0,sum=0;
+        for(head=0;head<N;head++){
+            sum+=Arr[head];
+            while(head-tail+1 >= K){
+                ans = max(ans,sum);
+                sum-=Arr[tail];
+                tail++;
+            }
+        }
+        return ans;
+    }
+
+// 
+
 // 3. Longest Substring Without Repeating Characters
 
 int lengthOfLongestSubstring(string s) {
-        int tail=0,head=0,ans=0;   // declare global variables head,tail,ans
+        int head=0,tail=0,ans=0;   // declare global variables head,tail,ans
         unordered_map<char,int> mp;  // if necessary declare ds to store frequency(map,vector)
         for(head=0;head<s.size();head++){  // run for loop for whole array
             mp[s[head]]++;   // make operation
@@ -66,7 +82,7 @@ int numSubarrayProductLessThanK(vector<int>& nums, int k) {
 // 1695. Maximum Erasure Value
 
 int maximumUniqueSubarray(vector<int>& nums) {
-        int tail=0,head=0,ans=0,sum=0;   
+        int head=0,tail=0,ans=0,sum=0;   
         unordered_map<int,int> mp; 
         for(head=0;head<nums.size();head++){  
             mp[nums[head]]++;   
@@ -174,6 +190,27 @@ vector<int> findAnagrams(string s, string p) {
         return ans;
     }
 
+// Count Occurences of Anagrams
+
+int search(string pat, string txt) {
+	    vector<int>freq1(26, 0), freq2(26, 0);
+	    for(int i=0;i<pat.size();i++){
+	        freq2[pat[i]-'a']++;
+	    }
+	    int sz = pat.size();
+        int head=0,tail=0,ans=0;
+        for(head=0;head<txt.size();head++){
+            if(freq1 == freq2)ans++;
+            while(head-tail+1 > sz){
+                freq1[txt[tail]-'a']--;
+                tail++;
+            }
+            freq1[txt[head]-'a']++;
+        }
+        if(freq1 == freq2)ans++;
+        return ans;
+	}
+
 // 1456. Maximum Number of Vowels in a Substring of Given Length
 
 bool isVowel( char c ){
@@ -211,7 +248,7 @@ long long countSubarrays(vector<int>& nums, long long k) {
 // 904. Fruit Into Baskets
 
 int totalFruit(vector<int>& fruits) {
-        int tail=0,head=0,ans=0;   
+        int head=0,tail=0,ans=0;   
         unordered_map<int,int> mp; 
         for(head=0;head<fruits.size();head++){  
             mp[fruits[head]]++;   
@@ -225,11 +262,29 @@ int totalFruit(vector<int>& fruits) {
         return ans;  
     }
 
+// Longest K unique characters substring
+int longestKSubstr(string s, int k) {
+        unordered_map<char,int> mp;
+        int head=0,tail=0,ans=-1;
+        if(s.size() < k)return ans;
+        for(head=0;head<s.size();head++){
+            mp[s[head]]++;
+            while(mp.size() > k){
+                mp[s[tail]]--;  
+                if(mp[s[tail]] == 0)mp.erase(s[tail]);
+                tail++;
+            }
+            if(mp.size()==k) 
+            ans=max(ans,head-tail+1);
+        }
+        return ans; 
+    }
+
 
 // 2260. Minimum Consecutive Cards to Pick Up
 
 int minimumCardPickup(vector<int>& cards) {
-        int tail=0,head=0,ans=INT_MAX;   
+        int head=0,tail=0,ans=INT_MAX;   
         unordered_map<int,int> mp; 
         for(head=0;head<cards.size();head++){  
             mp[cards[head]]++;   
