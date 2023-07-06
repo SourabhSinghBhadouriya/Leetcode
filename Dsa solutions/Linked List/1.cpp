@@ -185,7 +185,8 @@ ListNode* mergeKLists(vector<ListNode*>& lists) {
         return res;
     }
 
-// 23 Merge k Sorted Lists(2nd approach),,TC : O(NKlog(K)),,K = size of array,N = size of each linked list
+// 23 Merge k Sorted Lists(2nd approach)  ,, // SC O(log(K))
+// TC : O(Nlog(K)),,K = size of array,L = nodes in each linked list ,, N = KL = total nodes in merged list
 ListNode *mergeTwoLists(ListNode *l1, ListNode *l2)
 {
     if (l1 == NULL || l2 == NULL)
@@ -216,7 +217,7 @@ ListNode *mergeTwoLists(ListNode *l1, ListNode *l2)
     return head;
 }
 ListNode *mergeKSortedLists(vector<ListNode*>& lists,int si,int ei){
-    if(si < ei)return NULL;
+        if(si < ei)return NULL;
         if(si == ei)return lists[si];
         int mid = (si+ei)/2;
         ListNode *l1 = mergeKSortedLists(lists,si,mid);
@@ -228,7 +229,8 @@ ListNode* mergeKLists(vector<ListNode*>& lists) {
         return mergeKSortedLists(lists,0,lists.size()-1);
     }
     
-// 9th question
+// Segregate even and odd nodes in a Link List
+
 ListNode *segregateEvenOdd(ListNode *head)
 {
     if (head == NULL || head->next == NULL)
@@ -258,6 +260,38 @@ ListNode *segregateEvenOdd(ListNode *head)
     return even->next;
 }
 
+// 328. Odd Even Linked List
+ListNode* oddEvenList(ListNode* head) {
+    if (head == NULL || head->next == NULL)
+        return head;
+
+    ListNode *even = new ListNode(-1), *odd = new ListNode(-1);
+    ListNode *ep = even, *op = odd, *curr = head;
+    int count = 0;
+
+    while (curr != NULL){
+        count++;
+
+        if (count % 2 != 0)
+        {
+            op->next = curr;
+            op = op->next;
+        }
+        else
+        {
+            ep->next = curr;
+            ep = ep->next;
+        }
+        curr = curr->next;
+    }
+
+    ep->next = NULL, op->next = NULL;
+    op->next = even->next;
+
+    return odd->next;
+    }
+
+// finding length of linkedlist
 int length(ListNode *head)
 {
     int len = 0;
@@ -319,6 +353,70 @@ ListNode *reverseInKGroup(ListNode *head, int k)
 
     return oh;
 }
+
+// 25. Reverse Nodes in k-Group
+// finding length of linkedlist(when remaining nodes to be leave as it is)
+    int length(ListNode *head){
+    int len = 0;
+    while (head != NULL){
+        head = head->next;
+        len++;
+    }
+    return len;
+}
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        // base case
+       if(head == NULL){
+           return head;
+       }
+       // step 1 reverse first k nodes
+       ListNode* curr=head,*prev=NULL,*forw=NULL;
+       int cnt=0;
+       while(curr != NULL && cnt < k){
+           forw = curr->next;
+           curr->next=prev;
+           prev=curr;
+           curr=forw;
+           cnt++;
+       }
+       // recursive part
+       int len = length(forw);
+       if(forw != NULL ){
+           if(len >= k){
+               head->next = reverseKGroup(forw,k);
+           }else{
+               head->next = forw;
+           }
+       }
+       
+       // step 3 return head of reversed list 
+        return prev;
+    }
+
+// Reverse a Linked List in groups of given size(GFG)
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        // base case
+       if(head == NULL){
+           return head;
+       }
+       // step 1 reverse first k nodes
+       ListNode* curr=head,*prev=NULL,*forw=NULL;
+       int cnt=0;
+       while(curr != NULL && cnt < k){
+           forw = curr->next;
+           curr->next=prev;
+           prev=curr;
+           curr=forw;
+           cnt++;
+       }
+       // step 2 recursive part
+       if(forw != NULL ){
+            head->next = reverseKGroup(forw,k);
+       }
+       
+       // step 3 return head of reversed list 
+        return prev;
+    }
 
 ListNode *multiplyDigitWithLL(ListNode *list, int digit)
 {
