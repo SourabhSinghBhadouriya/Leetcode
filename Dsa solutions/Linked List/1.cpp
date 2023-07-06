@@ -80,7 +80,7 @@ ListNode *reverse(ListNode *head)
         return flag;
     }
 
-// 143  Reorder List
+// 143  Reorder List  // fold linked list
 // T: O(n), S: O(1)
 void fold(ListNode *head)
 {
@@ -176,7 +176,7 @@ ListNode* mergeSort(ListNode* head) {
     }
 
 // 23. Merge k Sorted Lists
-
+// TC = O(NK^2)
 ListNode* mergeKLists(vector<ListNode*>& lists) {
         ListNode* res = NULL;
         for (auto i : lists) {
@@ -185,7 +185,7 @@ ListNode* mergeKLists(vector<ListNode*>& lists) {
         return res;
     }
 
-// 8th question(2nd approach),,TC : O(Nlog(K)),,K = size of array
+// 23 Merge k Sorted Lists(2nd approach),,TC : O(NKlog(K)),,K = size of array,N = size of each linked list
 ListNode *mergeTwoLists(ListNode *l1, ListNode *l2)
 {
     if (l1 == NULL || l2 == NULL)
@@ -216,9 +216,12 @@ ListNode *mergeTwoLists(ListNode *l1, ListNode *l2)
     return head;
 }
 ListNode *mergeKSortedLists(vector<ListNode*>& lists,int si,int ei){
+    if(si < ei)return NULL;
         if(si == ei)return lists[si];
         int mid = (si+ei)/2;
-        return mergeTwoLists(mergeKSortedLists(lists,si,mid),mergeKSortedLists(lists,mid+1,ei));
+        ListNode *l1 = mergeKSortedLists(lists,si,mid);
+        ListNode *l2 = mergeKSortedLists(lists,mid+1,ei);
+        return mergeTwoLists(l1,l2);
     }
 ListNode* mergeKLists(vector<ListNode*>& lists) {
         if(lists.size() == 0)return NULL;

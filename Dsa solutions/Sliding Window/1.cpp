@@ -128,7 +128,20 @@ int minSubArrayLen(int target, vector<int>& nums) {
         return ans == INT_MAX ? 0 : ans;
     }
 
-// 1658. Minimum Operations to Reduce X to Zero
+// 1493. Longest Subarray of 1's After Deleting One Element
+
+int longestSubarray(vector<int>& nums) {
+        int head=0,tail=0,ans=0,cnt=0;
+        for(head=0;head<nums.size();head++){
+            if(nums[head] == 0)cnt++;
+            while(cnt > 1){
+                if(nums[tail] == 0)cnt--;
+                tail++;
+            }
+            ans = max(ans,head-tail);
+        }
+        return ans;
+    }
 
 // 2024. Maximize the Confusion of an Exam
 
