@@ -1,66 +1,55 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-// 994. Rotting Oranges
+//  994. Rotting Oranges
 
-int orangesRotting(vector<vector<int>> &grid)
-{
-    int n = grid.size(), m = grid[0].size();
-    queue<int> que;
-
-    int time = 0, orangeCount = 0;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
-            if (grid[i][j] == 2)
-                que.push(i * m + j);
-            else if (grid[i][j] == 1)
-                orangeCount++;
+int orangesRotting(vector<vector<int>>& grid) {
+        int n = grid.size(),m = grid[0].size(),fresh=0;
+        queue<int> que;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j] == 2)
+                   que.push(i*m+j);
+                else if(grid[i][j] == 1)
+                   fresh++;
+            }
         }
-    }
+        if(fresh == 0)return 0;
+        int level = -1;
+        vector<vector<int>> dir = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+        while(!que.empty()){
+            level++;
+            int size = que.size();
+            while(size--){
+                int idx = que.front();
+                que.pop();
+                int sr = idx / m,sc = idx % m;
+                for(vector<int> &d : dir){
+                    int r = sr + d[0];
+                    int c = sc + d[1];
 
-    if (orangeCount == 0)
-        return 0;
-
-    vector<vector<int>> dir = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-
-    while (!que.empty())
-    {
-        int size = que.size();
-        while (size-- )
-        {
-            int idx = que.front();
-            que.pop();
-
-            int sr = idx / m, sc = idx % m;
-
-            for (vector<int> &d : dir)
-            {
-                int r = sr + d[0];
-                int c = sc + d[1];
-
-                if (r >= 0 && c >= 0 && r < n && c < m && grid[r][c] == 1)
-                {
-                    grid[r][c] = 2;
-                    que.push(r * m + c);
-                    orangeCount--;
-                    if (orangeCount == 0)
-                        return time + 1;
+                    if(r >= 0 && c >= 0 && r < n && c < m && grid[r][c] == 1){
+                        grid[r][c] = 2;
+                        que.push(r*m+c);
+                        fresh--;
+                    }
                 }
             }
         }
-        time++;
+        if(fresh == 0){
+            return level;
+        }
+        else{
+            return -1;
+        }
     }
 
-    return -1;
-}
 
 // 1091. Shortest Path in Binary Matrix
 
 int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
 
-        int n = grid.size(), m = grid[0].size(), shortestPath = 1;
+        int n = grid.size(), m = grid[0].size();
         if (grid[0][0] == 1 || grid[n - 1][m - 1] == 1)
             return -1;
 
@@ -68,7 +57,9 @@ int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
         vector<vector<int>> dir = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { 1, 1 }, { -1, 1 }, { 1, -1 }, { -1, -1 } };
 
         que.push(0);
+        int shortestPath = 0;
         while (!que.empty()) {
+            shortestPath++;
             int size = que.size();
             while (size-- ) {
                 int idx = que.front();
@@ -86,8 +77,6 @@ int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
                     }
                 }
             }
-
-            shortestPath++;
         }
 
         return -1;
@@ -468,6 +457,7 @@ int longestIncreasingPath(vector<vector<int>> &matrix)
     int level = 0;
     while (!que.empty())
     {
+        level++;
         int size = que.size();
         while (size-- )
         {
@@ -483,7 +473,6 @@ int longestIncreasingPath(vector<vector<int>> &matrix)
                     que.push(r * m + c);
             }
         }
-        level++;
     }
 
     return level;

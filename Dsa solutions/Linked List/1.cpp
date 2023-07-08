@@ -30,7 +30,7 @@ ListNode *midNode(ListNode *head)
     return slow;
 }
 
-// 206. Reverse Linked List
+// 206-> Reverse Linked List
 // T: O(n), S: O(1)
 ListNode *reverse(ListNode *head)
 {
@@ -51,7 +51,30 @@ ListNode *reverse(ListNode *head)
     return prev;
 }
 
-// 234. Palindrome Linked List
+// 206-> Reverse Linked List
+// T: O(n), S: O(1),,2nd method
+ListNode *th = NULL, *tt = NULL;
+    void addFirst(ListNode *node){
+    if (th == NULL)
+        th = tt = node;
+    else
+    {
+        node->next = th;
+        th = node;
+    }
+}
+    ListNode* reverseList(ListNode* head) {
+        ListNode *curr=head;
+        while(curr != NULL){
+            ListNode *forw = curr->next;
+            curr->next = NULL;
+            addFirst(curr);
+            curr=forw;
+        }
+        return th;
+    }
+
+// 234-> Palindrome Linked List
 // T: O(n), S: O(1)
     bool isPalindrome(ListNode* head) {
         if (head == NULL || head->next == NULL)
@@ -128,7 +151,7 @@ void fold(ListNode *head)
         c1->next = nHead;
     }
 
-// 21. Merge Two Sorted Lists
+// 21-> Merge Two Sorted Lists
 // T: O(n + m), S: O(1)
 ListNode *mergeTwoLists(ListNode *l1, ListNode *l2)
 {
@@ -160,7 +183,7 @@ ListNode *mergeTwoLists(ListNode *l1, ListNode *l2)
     return head;
 }
 
-//  148. Sort List
+//  148-> Sort List
 //T:O(nlogn)
 ListNode* mergeSort(ListNode* head) {
         if (head == NULL || head->next == NULL)
@@ -175,7 +198,7 @@ ListNode* mergeSort(ListNode* head) {
         return mergeTwoLists(left,right);
     }
 
-// 23. Merge k Sorted Lists
+// 23-> Merge k Sorted Lists
 // TC = O(NK^2)
 ListNode* mergeKLists(vector<ListNode*>& lists) {
         ListNode* res = NULL;
@@ -225,8 +248,8 @@ ListNode *mergeKSortedLists(vector<ListNode*>& lists,int si,int ei){
         return mergeTwoLists(l1,l2);
     }
 ListNode* mergeKLists(vector<ListNode*>& lists) {
-        if(lists.size() == 0)return NULL;
-        return mergeKSortedLists(lists,0,lists.size()-1);
+        if(lists->size() == 0)return NULL;
+        return mergeKSortedLists(lists,0,lists->size()-1);
     }
     
 // Segregate even and odd nodes in a Link List
@@ -260,7 +283,7 @@ ListNode *segregateEvenOdd(ListNode *head)
     return even->next;
 }
 
-// 328. Odd Even Linked List
+// 328-> Odd Even Linked List
 ListNode* oddEvenList(ListNode* head) {
     if (head == NULL || head->next == NULL)
         return head;
@@ -305,7 +328,7 @@ int length(ListNode *head)
 
 ListNode *th = NULL, *tt = NULL;
 
-void addFirstNode(ListNode *node)
+void addFirst(ListNode *node)
 {
     if (th == NULL)
         th = tt = node;
@@ -330,7 +353,7 @@ ListNode *reverseInKGroup(ListNode *head, int k)
         {
             ListNode *forw = curr->next;
             curr->next = NULL;
-            addFirstNode(curr);
+            addFirst(curr);
             curr = forw;
         }
 
@@ -354,7 +377,7 @@ ListNode *reverseInKGroup(ListNode *head, int k)
     return oh;
 }
 
-// 25. Reverse Nodes in k-Group
+// 25-> Reverse Nodes in k-Group
 // finding length of linkedlist(when remaining nodes to be leave as it is)
     int length(ListNode *head){
     int len = 0;
@@ -379,7 +402,7 @@ ListNode *reverseInKGroup(ListNode *head, int k)
            curr=forw;
            cnt++;
        }
-       // recursive part
+       // step 2 recursive part
        int len = length(forw);
        if(forw != NULL ){
            if(len >= k){
@@ -393,7 +416,7 @@ ListNode *reverseInKGroup(ListNode *head, int k)
         return prev;
     }
 
-// Reverse a Linked List in groups of given size(GFG)
+// Reverse a Linked List in groups of given size(GFG)(when remaining nodes also reversed)
     ListNode* reverseKGroup(ListNode* head, int k) {
         // base case
        if(head == NULL){
@@ -416,6 +439,165 @@ ListNode *reverseInKGroup(ListNode *head, int k)
        
        // step 3 return head of reversed list 
         return prev;
+    }
+
+// 92-> Reverse Linked List II
+ListNode *th = NULL, *tt = NULL;
+    void addFirst(ListNode *node){
+    if (th == NULL)
+        th = tt = node;
+    else
+    {
+        node->next = th;
+        th = node;
+    }
+}
+    ListNode* reverseBetween(ListNode* head, int n, int m) {
+        if (head == NULL || head->next == NULL || n == m)
+            return head;
+        int idx = 1;
+        ListNode* prev = NULL,* curr = head;
+        while (curr != NULL) {
+            while (curr != NULL && idx >= n && idx <= m) {
+                ListNode *forw = curr->next;
+                curr->next = NULL;
+                addFirst(curr);
+                curr = forw;
+                idx++;
+            }
+
+            if (idx > m) {
+                if (prev != NULL) {
+                    prev->next = th;
+                    tt->next = curr;
+                    return head;
+                } else {
+                    tt->next = curr;
+                    return th;
+                }
+            }
+
+            idx++;
+            prev = curr;
+            curr = curr->next;
+        }
+        return head;
+    }
+
+// Segregate 01
+ListNode *Segregate(ListNode *head){
+    if(head == NULL || head->next == NULL)
+         return head;
+
+    ListNode *zero = new ListNode(-1);
+    ListNode *pz = zero;
+    ListNode *one  = new ListNode (-1);
+    ListNode * po = one;
+    ListNode *curr = head;
+    while(curr != NULL){
+        if(curr->val == 0){
+            pz->next = curr;
+            pz = pz->next;
+        }else{
+            po->next = curr;
+            po = po->next;
+        }
+        curr= curr->next;
+    }
+    pz->next = one->next;
+    po->next = NULL;
+    return zero->next;
+}
+// Segregate 012 ,,Given a linked list of 0s, 1s and 2s, sort it
+ListNode *Segregate(ListNode *head){
+    if(head == NULL || head->next == NULL)
+         return head;
+
+    ListNode *zero = new ListNode(-1);
+    ListNode *pz = zero;
+    ListNode *one  = new ListNode (-1);
+    ListNode * po = one;
+    ListNode *two = new ListNode(-1);
+    ListNode *pt = two;
+    ListNode *curr = head;
+    while(curr != NULL){
+        if(curr->val == 0){
+            pz->next = curr;
+            pz = pz->next;
+        }else if(curr->val == 1){
+            po->next = curr;
+            po = po->next;
+        }else{
+            pt->next = curr;
+            pt = pt->next;
+        }
+        curr= curr->next;
+    }
+    
+    po->next = two->next;
+    pz->next = one->next;
+    pt->next = NULL;
+    return zero->next;
+}
+
+// segregateOnLastIndex
+ListNode* getTail(ListNode* head) {
+        if (head == NULL || head->next == NULL)
+            return head;
+
+        ListNode* curr = head;
+        while (curr->next != NULL)
+            curr = curr->next;
+
+        return curr;
+    }
+ListNode* segregateOnLastIndex(ListNode* head) {
+        if (head == NULL || head->next == NULL)
+            return head;
+
+        ListNode* pivotNode = getTail(head);
+
+        ListNode* large = new ListNode(-1), *small = new ListNode(-1), *sp = small, *lp = large, *curr = head;
+        while (curr != NULL) {
+            if (curr->val <= pivotNode->val) {
+                sp->next = curr;
+                sp = sp->next;
+            } else {
+                lp->next = curr;
+                lp = lp->next;
+            }
+            curr = curr->next;
+        }
+
+        sp->next = lp->next = NULL;
+        sp->next = large->next;
+        return small->next;
+    }
+
+// 19. Remove Nth Node From End of List
+
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+        if (head == NULL)
+            return head;
+
+        ListNode* dummy = new ListNode(-1);
+        dummy->next = head;
+        ListNode* prev = dummy, *forw = dummy;
+        while (n-- > 0)
+            forw = forw->next;
+
+        while (forw->next != NULL) {
+            forw = forw->next;
+            prev = prev->next;
+        }
+
+        ListNode* dNode = prev->next;
+        prev->next = dNode->next;
+
+        dNode->next = NULL; 
+        delete dNode;
+
+        return dummy->next;
     }
 
 ListNode *multiplyDigitWithLL(ListNode *list, int digit)
