@@ -574,7 +574,7 @@ ListNode* segregateOnLastIndex(ListNode* head) {
         return small->next;
     }
 
-// 19. Remove Nth Node From End of List
+// 19-> Remove Nth Node From End of List
 
 ListNode* removeNthFromEnd(ListNode* head, int n) {
         if (head == NULL)
@@ -599,6 +599,7 @@ ListNode* removeNthFromEnd(ListNode* head, int n) {
 
         return dummy->next;
     }
+
 
 ListNode *multiplyDigitWithLL(ListNode *list, int digit)
 {
