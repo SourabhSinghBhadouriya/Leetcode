@@ -142,7 +142,7 @@ vector<vector<int>> rootToAllLeafPath(TreeNode *root)
     rootToAllLeafPath(root, ans, smallAns);
     return ans;
 }
-//exactlyOneChild
+//all single child parent in binary tree
 void exactlyOneChild(TreeNode* root, vector<int> &ans) {
         if (root == NULL || (root->left == NULL && root->right == NULL))
             return;
@@ -155,13 +155,14 @@ void exactlyOneChild(TreeNode* root, vector<int> &ans) {
         exactlyOneChild(root->right, ans);
     }
 
-     vector<int> exactlyOneChild(TreeNode* root) {
+vector<int> exactlyOneChild(TreeNode* root) {
         vector<int> ans;
-        exactlyOneChild(root);
+        exactlyOneChild(root,ans);
         return ans;
     }
-//exactlyOneChild
-    int countExactlyOneChild(TreeNode* node) {
+
+// count all single child parent in binary tree
+int countExactlyOneChild(TreeNode* node) {
         if (node == NULL || (node->left == NULL && node->right == NULL))
             return 0;
 
@@ -174,6 +175,47 @@ void exactlyOneChild(TreeNode* root, vector<int> &ans) {
 
         return ans;
     }
+
+// 112. Path Sum
+bool hasPathSum(TreeNode* root, int targetSum) {
+        if(root == NULL){
+            return false;
+        }
+        if(root->left == NULL && root->right == NULL ){
+            return (targetSum-root->val) == 0;
+        }
+        
+        return hasPathSum(root->left,targetSum - root->val) || hasPathSum(root->right,targetSum - root->val);
+    }
+
+// 113. Path Sum II
+void pathSum_(TreeNode *root, int targetSum, vector<int> &smallAns, vector<vector<int>> &ans){
+    if (root == NULL)
+        return;
+    if (root->left == NULL && root->right == NULL){
+        if (targetSum - root->val == 0){
+            smallAns.push_back(root->val);
+            ans.push_back(smallAns);
+            smallAns.pop_back();
+        }
+        return;
+    }
+
+    smallAns.push_back(root->val);
+
+    pathSum_(root->left, targetSum - root->val, smallAns, ans);
+    pathSum_(root->right, targetSum - root->val, smallAns, ans);
+
+    smallAns.pop_back();
+}
+
+vector<vector<int>> pathSum(TreeNode *root, int targetSum){
+    vector<vector<int>> ans;
+    vector<int> smallAns;
+    pathSum_(root, targetSum, smallAns, ans);
+    return ans;
+    }
+
 
    //kdown function to give all values below that node at distance k
     void kdown(TreeNode* root, int k, TreeNode* block, vector<int> &ans) {
@@ -339,6 +381,7 @@ void burningTreeWithWater(TreeNode *root, int data)
 }
 
 //lowestCommonAncestor
+// 236. Lowest Common Ancestor of a Binary Tree,, Method 1
 TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
 {
     vector<TreeNode *> list1, list2;
@@ -361,6 +404,7 @@ TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
     return LCA;
 }
 
+// Method 2
 bool LCA(TreeNode *root, TreeNode *p, TreeNode *q,TreeNode* &LCANode)
 {
     if (root == NULL)

@@ -59,7 +59,7 @@ vector<int>solve(TreeNode* A, int B) {
    return arr;
 }
 
-// 1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree
+// 1379. Find a Coransponding Node of a Binary Tree in a Clone of That Tree
 TreeNode* getTargetCopy_01(TreeNode* node, TreeNode* target){
         if(node == NULL)return NULL;
         if(node->val == target->val)return node;
@@ -203,13 +203,30 @@ int minDepth(TreeNode* root) {
         return max(left, right) + 1;
     }
 
+int minDepth(TreeNode* root) {
+        if(root == NULL){
+            return 0;
+        }
+        
+        int left = minDepth(root->left);
+        int right = minDepth(root->right);
+
+        if(root->left == NULL && root->right != NULL){
+            return right + 1;
+        }
+        if(root->left != NULL && root->right == NULL){
+           return left + 1;
+        }
+        return min(left, right) + 1;
+    }
+
 // 112. Path Sum
 bool hasPathSum(TreeNode* root, int targetSum) {
         if(root == NULL){
             return false;
         }
-        if(root->left == NULL && root->right == NULL && targetSum-root->val == 0){
-            return true;
+        if(root->left == NULL && root->right == NULL ){
+            return (targetSum-root->val) == 0;
         }
         bool left = hasPathSum(root->left,targetSum - root->val);
         bool right = hasPathSum(root->right,targetSum - root->val);
@@ -218,13 +235,13 @@ bool hasPathSum(TreeNode* root, int targetSum) {
     }
 
 // 113. Path Sum II
-void pathSum_(TreeNode *root, int targetSum, vector<int> &smallAns, vector<vector<int>> &res){
+void pathSum_(TreeNode *root, int targetSum, vector<int> &smallAns, vector<vector<int>> &ans){
     if (root == NULL)
         return;
     if (root->left == NULL && root->right == NULL){
         if (targetSum - root->val == 0){
             smallAns.push_back(root->val);
-            res.push_back(smallAns);
+            ans.push_back(smallAns);
             smallAns.pop_back();
         }
         return;
@@ -232,17 +249,84 @@ void pathSum_(TreeNode *root, int targetSum, vector<int> &smallAns, vector<vecto
 
     smallAns.push_back(root->val);
 
-    pathSum_(root->left, targetSum - root->val, smallAns, res);
-    pathSum_(root->right, targetSum - root->val, smallAns, res);
+    pathSum_(root->left, targetSum - root->val, smallAns, ans);
+    pathSum_(root->right, targetSum - root->val, smallAns, ans);
 
     smallAns.pop_back();
 }
 
 vector<vector<int>> pathSum(TreeNode *root, int targetSum){
-    vector<vector<int>> res;
+    vector<vector<int>> ans;
     vector<int> smallAns;
-    pathSum_(root, targetSum, smallAns, res);
-    return res;
+    pathSum_(root, targetSum, smallAns, ans);
+    return ans;
     }
+
+// K distance from root(GFG)
+void kdown(TreeNode *root, int k, vector<int> &ans){
+    if(root == NULL || k < 0){
+        return;
+    }
+    if(k == 0){
+        ans.push_back(root->val);
+        return;
+    }
+    kdown(root->left,k-1,ans);
+    kdown(root->right,k-1,ans);
+}
+vector<int> Kdistance(TreeNode *root, int k)
+{
+    vector<int> ans;
+    kdown(root,k,ans);
+    return ans;
+}
+
+// 863. All Nodes Distance K in Binary Tree
+//kdown function to give all values below that node at distance k
+    void kdown(TreeNode* root, int k, TreeNode* block, vector<int> &ans) {
+        if (root == NULL || k < 0 || root == block)
+            return;
+
+        if (k == 0) {
+            ans.push_back(root->val);
+            return;
+        }
+
+        kdown(root->left, k - 1, block, ans);
+        kdown(root->right, k - 1, block, ans);
+    }
+// distanceK
+    int distanceK(TreeNode* root, TreeNode* target, int k,vector<int> &ans ) {
+        if (root == NULL)
+            return -1;
+
+        if (root == target) {
+            kdown(root, k, NULL, ans);
+            return 1;
+        }
+
+        int ld = distanceK(root->left, target, k, ans);
+        if (ld != -1) {
+            kdown(root, k - ld, root->left, ans);
+            return ld + 1;
+        }
+
+        int rd = distanceK(root->right, target, k, ans);
+        if (rd != -1) {
+            kdown(root, k - rd, root->right, ans);
+            return rd + 1;
+        }
+
+        return -1;
+    }
+
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        vector<int> ans;
+        distanceK(root,target,k,ans);
+        return ans;
+        
+    }
+    
+// 
 
 
